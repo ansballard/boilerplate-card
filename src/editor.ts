@@ -4,11 +4,11 @@ import { HomeAssistant, fireEvent, LovelaceCardEditor } from 'custom-card-helper
 
 import { ScopedRegistryHost } from '@lit-labs/scoped-registry-mixin';
 import { BoilerplateCardConfig } from './types';
-import { customElement, property, state } from 'lit/decorators';
-import { formfieldDefinition } from '../elements/formfield';
-import { selectDefinition } from '../elements/select';
-import { switchDefinition } from '../elements/switch';
-import { textfieldDefinition } from '../elements/textfield';
+import { customElement, property, state } from 'lit/decorators.js';
+import { formfieldDefinition } from '../elements/formfield.mjs';
+import { selectDefinition } from '../elements/select.mjs';
+import { switchDefinition } from '../elements/switch.mjs';
+import { textfieldDefinition } from '../elements/textfield.mjs';
 
 @customElement('boilerplate-card-editor')
 export class BoilerplateCardEditor extends ScopedRegistryHost(LitElement) implements LovelaceCardEditor {

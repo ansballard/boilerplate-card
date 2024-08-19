@@ -1,15 +1,16 @@
-import typescript from 'rollup-plugin-typescript2';
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
-import { terser } from 'rollup-plugin-terser';
-import serve from 'rollup-plugin-serve';
+import commonjs from '@rollup/plugin-commonjs';
+import nodeResolve from '@rollup/plugin-node-resolve';
 import json from '@rollup/plugin-json';
-import ignore from './rollup-plugins/ignore';
-import { ignoreTextfieldFiles } from './elements/ignore/textfield';
-import { ignoreSelectFiles } from './elements/ignore/select';
-import { ignoreSwitchFiles } from './elements/ignore/switch';
+import serve from 'rollup-plugin-serve';
+import ignore from './rollup-plugins/ignore.mjs';
+import esbuild from 'rollup-plugin-esbuild';
+import { ignoreTextfieldFiles } from './elements/ignore/textfield.mjs';
+import { ignoreSelectFiles } from './elements/ignore/select.mjs';
+import { ignoreSwitchFiles } from './elements/ignore/switch.mjs';
+import { createRequire } from 'node:module';
 
+const require = createRequire(import.meta.url);
+// eslint-disable-next-line no-undef
 const dev = process.env.ROLLUP_WATCH;
 
 const serveopts = {
@@ -25,13 +26,11 @@ const serveopts = {
 const plugins = [
   nodeResolve({}),
   commonjs(),
-  typescript(),
   json(),
-  babel({
-    exclude: 'node_modules/**',
+  esbuild({
+    minify: !dev,
   }),
   dev && serve(serveopts),
-  !dev && terser(),
   ignore({
     files: [...ignoreTextfieldFiles, ...ignoreSelectFiles, ...ignoreSwitchFiles].map((file) => require.resolve(file)),
   }),
